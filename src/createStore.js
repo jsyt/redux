@@ -12,9 +12,24 @@
  * @returns {Store} 是一个Redux仓库让你可以读取状态，派发action并订阅状态变化
  */
 export default function createStore(reducer, preloadedState, enhancer) {
-  if (enhancer) {
-    return enhancer(preloadedState, reducer)
+
+  if (typeof preloadedState === 'function' && typeof enhancer === 'undefined') {
+    enhancer = preloadedState
+    preloadedState = undefined
   }
+
+  if (typeof reducer !== 'function') {
+    throw new Error('Expected the reducer to be a function.')
+  }
+
+  if (typeof enhancer !== 'undefined') {
+    if (typeof enhancer !== 'function') {
+      throw new Error('Expected the enhancer to be a function.')
+    }
+
+    return enhancer(createStore)(reducer, preloadedState)
+  }
+
   let state = preloadedState;
   let listeners = [];
   /**
