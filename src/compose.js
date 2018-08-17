@@ -1,6 +1,6 @@
 /**
  * 从右向左compose单参数函数，最后一个函数可以传递多个参数
- *
+ * 在传入的函数集合中从右向左依次将函数执行的结果作为参数传给下一个函数执行
  * @export
  * @param {...Function} funcs 用来compose的Function集合
  * @returns {Function} A function obtained by composing the argument functions
